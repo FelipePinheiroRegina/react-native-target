@@ -1,8 +1,8 @@
 {
   "expo": {
-    "name": "rn-transactions",
-    "slug": "rn-transactions",
-    "scheme": "rn-transactions",
+    "name": "react-native-target",
+    "slug": "react-native-target",
+    "scheme": "react-native-target",
     "version": "1.0.0",
     "orientation": "portrait",
     "userInterfaceStyle": "light",
@@ -11,7 +11,7 @@
       "supportsTablet": true
     },
     "android": {
-      "package": "com.feh.rn_transactions",
+      "package": "com.feh.react_native_target",
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#3d44cd"
