@@ -1,4 +1,4 @@
-import { TextInput, TextInputProps, View, Text } from 'react-native'
+import { View, Text } from 'react-native'
 import Input, { CurrencyInputProps } from 'react-native-currency-input'
 import { styles } from './styles'
 import { colors } from '@/theme'

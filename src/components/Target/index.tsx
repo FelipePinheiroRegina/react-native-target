@@ -3,7 +3,7 @@ import { styles } from './styles'
 import { formatCurrency } from '@/utils/formatCurrency'
 import { MaterialIcons } from '@expo/vector-icons'
 
-interface TargetProps extends TouchableOpacityProps {
+export interface TargetProps extends TouchableOpacityProps {
   id?: string
   name: string
   percentage: number
