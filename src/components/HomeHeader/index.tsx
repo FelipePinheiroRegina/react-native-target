@@ -23,10 +23,10 @@ export function HomeHeader({ total = 0, income = 0, outcome = 0 }: HomeHeaderPro
       <Divider color={colors.blue[400]} />
 
       <View style={styles.summary}>
-        <Summary label="Income" value={income} icon={{ name: 'arrow-upward', color: colors.green[500] }} />
+        <Summary label="Income" amount={income} icon={{ name: 'arrow-upward', color: colors.green[500] }} />
         <Summary
           label="Outcome"
-          value={outcome}
+          amount={outcome}
           icon={{ name: 'arrow-downward', color: colors.red[400] }}
           placement="right"
         />

@@ -15,7 +15,7 @@ export const styles = StyleSheet.create({
     color: colors.white,
     fontFamily: fontFamily.regular,
   },
-  value: {
+  amount: {
     fontSize: 18,
     color: colors.white,
     fontFamily: fontFamily.regular,

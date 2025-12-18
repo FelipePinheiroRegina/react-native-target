@@ -5,29 +5,32 @@ import { TransactionsType } from '@/utils/transactionsType'
 import { MaterialIcons } from '@expo/vector-icons'
 import { colors } from '@/theme'
 
-interface TransactionProps {
+export type TransactionData = {
   id: string
-  value: number
-  date: string | Date
-  description?: string
+  amount: number
+  createdAt: string | Date
+  observation: string | null
   type: TransactionsType
+}
+export interface TransactionProps {
+  data: TransactionData
   onRemove: VoidFunction
 }
 
-export function Transaction({ id, value, description, type, onRemove, date }: TransactionProps) {
+export function Transaction({ data, onRemove }: TransactionProps) {
   return (
     <View style={styles.container}>
       <MaterialIcons
-        name={type === TransactionsType.INCOME ? 'arrow-upward' : 'arrow-downward'}
+        name={data.type === TransactionsType.INCOME ? 'arrow-upward' : 'arrow-downward'}
         size={20}
-        color={type === TransactionsType.INCOME ? colors.blue[500] : colors.red[400]}
+        color={data.type === TransactionsType.INCOME ? colors.blue[500] : colors.red[400]}
       />
 
       <View style={styles.info}>
-        <Text style={styles.value}>{formatCurrency(value)}</Text>
+        <Text style={styles.value}>{formatCurrency(data.amount)}</Text>
         <Text style={styles.description} numberOfLines={1}>
-          {date.toLocaleString()}
-          {description && ` • ${description}`}
+          {data.createdAt.toLocaleString()}
+          {data.observation && ` • ${data.observation}`}
         </Text>
       </View>
 

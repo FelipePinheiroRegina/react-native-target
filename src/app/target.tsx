@@ -4,9 +4,10 @@ import { PageHeader } from '@/components/PageHeader'
 import { Input } from '@/components/Input'
 import { Button } from '@/components/Button'
 import { CurrencyInput } from '@/components/CurrencyInput'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { router, useLocalSearchParams } from 'expo-router'
 import { useTargetDatabase } from '@/database/useTargetDatabase'
+import { StatusBar } from 'expo-status-bar'
 
 export default function Target() {
   const [isLoading, setIsLoading] = useState(false)
@@ -14,7 +15,7 @@ export default function Target() {
   const [amount, setAmount] = useState(0)
 
   const params = useLocalSearchParams<{ id: string }>()
-  const { createTargetDatabase } = useTargetDatabase()
+  const { createTargetDatabase, findById, updateTargetDatabase, deleteTargetDatabase } = useTargetDatabase()
 
   function handleSave() {
     if (!name.trim() || amount <= 0) {
@@ -24,7 +25,9 @@ export default function Target() {
     setIsLoading(true)
 
     if (params.id) {
-      return console.log('updateTarget')
+      return updateTargetDatabase(Number(params.id), { name, amount }).then(() => {
+        router.back()
+      })
     }
 
     createTarget()
@@ -41,12 +44,45 @@ export default function Target() {
     }
   }
 
+  async function fetchTargetById() {
+    try {
+      const target = await findById(Number(params.id))
+      setName(target?.name ?? '')
+      setAmount(target?.amount ?? 0)
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
+  useEffect(() => {
+    if (params.id) {
+      fetchTargetById()
+    }
+  }, [params.id])
+
   return (
     <View style={{ flex: 1, padding: 24 }}>
-      <PageHeader title="Target" subTitle="Save to reach your financial goal." />
+      <StatusBar style="dark" />
+      <PageHeader
+        title="Target"
+        subTitle="Save to reach your financial goal."
+        {...(params.id && {
+          rightButton: {
+            icon: 'delete',
+            onPress: () =>
+              Alert.alert('Delete target', 'Are you sure you want to delete this target?', [
+                { text: 'Cancel', style: 'cancel' },
+                {
+                  text: 'Delete',
+                  onPress: () => deleteTargetDatabase(Number(params.id)).then(() => router.replace('/')),
+                },
+              ]),
+          },
+        })}
+      />
 
       <View style={{ marginTop: 32, gap: 24 }}>
-        <Input label="Target name" placeholder="Ex.: House, Car, Vacation, etc." onChangeText={setName} />
+        <Input label="Target name" placeholder="Ex.: House, Car, Vacation, etc." onChangeText={setName} value={name} />
 
         <CurrencyInput
           label="Target amount"

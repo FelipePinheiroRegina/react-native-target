@@ -15,6 +15,7 @@ export async function migrate(database: SQLiteDatabase) {
         CREATE TABLE IF NOT EXISTS transactions (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             target_id INTEGER NOT NULL,
+            type TEXT NOT NULL CHECK(type IN ('income', 'outcome')),
             amount FLOAT NOT NULL,
             observation TEXT NULL,
             created_at timestamp NOT NULL DEFAULT current_timestamp,

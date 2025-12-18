@@ -8,11 +8,14 @@ import { StatusBar } from 'expo-status-bar'
 import { useTargetDatabase } from '@/database/useTargetDatabase'
 import { useCallback, useState } from 'react'
 import { Loading } from '@/components/Loading'
+import { useTransactionDatabase } from '@/database/useTransactionDatabase'
 
 export default function Index() {
   const { listTargets } = useTargetDatabase()
+  const { getSummary } = useTransactionDatabase()
   const [targets, setTargets] = useState<TargetProps[]>([])
   const [isLoading, setIsLoading] = useState(true)
+  const [summary, setSummary] = useState({ total: 0, income: 0, outcome: 0 })
 
   async function fetchTarget(): Promise<TargetProps[]> {
     try {
@@ -30,9 +33,18 @@ export default function Index() {
     }
   }
 
+  async function fetchSummary() {
+    try {
+      return await getSummary()
+    } catch {
+      return { total: 0, income: 0, outcome: 0 }
+    }
+  }
+
   async function fetchData() {
-    const [targets] = await Promise.all([fetchTarget()])
+    const [targets, summary] = await Promise.all([fetchTarget(), fetchSummary()])
     setTargets(targets)
+    setSummary(summary)
     setIsLoading(false)
   }
 
@@ -49,7 +61,7 @@ export default function Index() {
   return (
     <View style={{ flex: 1 }}>
       <StatusBar style="light" />
-      <HomeHeader total={2680} income={6184} outcome={883} />
+      <HomeHeader total={summary.total} income={summary.income} outcome={summary.outcome} />
       <List
         title="Targets"
         data={targets}

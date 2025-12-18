@@ -6,7 +6,7 @@ import { formatCurrency } from '@/utils/formatCurrency'
 
 interface SummaryProps {
   label: string
-  value: number
+  amount: number
   icon: {
     name: keyof typeof MaterialIcons.glyphMap
     color: ColorValue
@@ -14,7 +14,7 @@ interface SummaryProps {
   placement?: 'left' | 'right'
 }
 
-export function Summary({ label, value, icon, placement = 'left' }: SummaryProps) {
+export function Summary({ label, amount, icon, placement = 'left' }: SummaryProps) {
   return (
     <View style={styles.container}>
       <View style={[styles.header, styles[placement]]}>
@@ -22,7 +22,7 @@ export function Summary({ label, value, icon, placement = 'left' }: SummaryProps
         <Text style={styles.label}>{label}</Text>
       </View>
 
-      <Text style={styles.value}>{formatCurrency(value)}</Text>
+      <Text style={styles.amount}>{formatCurrency(amount)}</Text>
     </View>
   )
 }

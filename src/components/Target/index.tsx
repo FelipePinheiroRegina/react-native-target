@@ -20,7 +20,7 @@ export function Target({ id, name, percentage, current, target, ...props }: Targ
         </Text>
 
         <Text style={styles.status}>
-          {percentage}% • {formatCurrency(current)} de {formatCurrency(target)}
+          {percentage.toFixed(0)}% • {formatCurrency(current)} de {formatCurrency(target)}
         </Text>
       </View>
 
